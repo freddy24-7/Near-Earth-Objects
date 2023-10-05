@@ -1,17 +1,3 @@
-"""Extract data on near-Earth objects and close approaches from CSV and JSON files.
-
-The `load_neos` function extracts NEO data from a CSV file, formatted as
-described in the project instructions, into a collection of `NearEarthObject`s.
-
-The `load_approaches` function extracts close approach data from a JSON file,
-formatted as described in the project instructions, into a collection of
-`CloseApproach` objects.
-
-The main module calls these functions with the arguments provided at the command
-line, and uses the resulting collections to build an `NEODatabase`.
-
-You'll edit this file in Task 2.
-"""
 import csv
 import json
 
@@ -19,20 +5,44 @@ from models import NearEarthObject, CloseApproach
 
 
 def load_neos(neo_csv_path):
-    """Read near-Earth object information from a CSV file.
+    """Load NEO data from a CSV file into a list of `NearEarthObject`s.
 
-    :param neo_csv_path: A path to a CSV file containing data about near-Earth objects.
-    :return: A collection of `NearEarthObject`s.
+    :param neo_csv_path: A path to a CSV file containing NEO data.
+    :return: A list of `NearEarthObject`s.
     """
-    # TODO: Load NEO data from the given CSV file.
-    return ()
+    neo_objects = []
+
+    with open(neo_csv_path, newline='', encoding='utf-8') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            neo = NearEarthObject(
+                pdes=row["pdes"],
+                name=row['name'] if row['name'] else None,
+                diameter=float(row['diameter']) if row['diameter'] else float('nan'),
+                pha=row['pha'] == 'Y'
+            )
+            neo_objects.append(neo)
+
+    return neo_objects
 
 
 def load_approaches(cad_json_path):
-    """Read close approach data from a JSON file.
+    """Load close approach data from a JSON file into a list of `CloseApproach`s.
 
-    :param cad_json_path: A path to a JSON file containing data about close approaches.
-    :return: A collection of `CloseApproach`es.
+    :param cad_json_path: A path to a JSON file containing close approach data.
+    :return: A list of `CloseApproach`s.
     """
-    # TODO: Load close approach data from the given JSON file.
-    return ()
+    approach_objects = []
+
+    with open(cad_json_path, 'r', encoding='utf-8') as jsonfile:
+        data = json.load(jsonfile)
+        for item in data['data']:
+            approach = CloseApproach(
+                des=item[0],
+                cd=item[3],
+                dist=float(item[4]),
+                v_rel=float(item[7])
+            )
+            approach_objects.append(approach)
+
+    return approach_objects
