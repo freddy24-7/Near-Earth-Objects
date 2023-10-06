@@ -23,7 +23,11 @@ class NearEarthObject:
         """
         self.designation = info.get('pdes', '')
         self.name = info.get('name', None)
-        self.diameter = float(info.get('diameter', 'nan'))
+        try:
+            self.diameter = float(info.get('diameter', 'nan'))
+        except ValueError:
+            # Defaulting to NaN (Not a Number) if conversion fails
+            self.diameter = float('nan')
         self.hazardous = bool(info.get('pha', False))
         self.approaches = []
 
@@ -59,7 +63,14 @@ class CloseApproach:
         """
         self._designation = info.get('des', '')  # Designation of the NEO
         self.time = cd_to_datetime(info.get('cd', ''))  # Use the 'cd_to_datetime' function
-        self.distance = float(info.get('dist', 0.0))  # Convert to float
+        try:
+            self.distance = float(info.get('dist', 0.0))  # Convert to float
+        except ValueError:
+            # Defaulting to 0.0 if conversion fails
+            self.distance = 0.0
+        self.velocity = float(info.get('v_rel', 0.0))  # Convert to float
+        self.neo = None  # Reference to the associated NEO, to be set later
+
         self.velocity = float(info.get('v_rel', 0.0))  # Convert to float
         self.neo = None  # Reference to the associated NEO, to be set later
 

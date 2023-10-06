@@ -28,15 +28,15 @@ def load_neos(neo_csv_path):
     with open(neo_csv_path, newline='', encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
-            neo = NearEarthObject(
-                pdes=row["pdes"],
-                name=row['name'] if row['name'] else None,
-                diameter=float(row['diameter']) if row['diameter'] else float('nan'),
-                pha=row['pha'] == 'Y'
-            )
+            # Converting fields before constructing the NEO
+            row['name'] = row['name'] if row['name'] else None
+            row['diameter'] = float(row['diameter']) if row['diameter'] else float('nan')
+            row['pha'] = row['pha'] == 'Y'
+            neo = NearEarthObject(**row)
             neo_objects.append(neo)
 
     return neo_objects
+
 
 
 def load_approaches(cad_json_path):
