@@ -1,3 +1,11 @@
+"""
+This module provides utilities for filtering close approaches.
+
+It defines filter classes that encapsulate search criteria and apply them to close approach
+instances. The module also provides factory and utility functions for creating filter instances
+and for limiting the results produced by iterators.
+"""
+
 import operator
 import itertools
 
@@ -29,6 +37,11 @@ class AttributeFilter:
         raise UnsupportedCriterionError
 
     def __repr__(self):
+        """
+        Return the string representation of the object.
+
+        :return: A string representation of the object.
+        """
         return f"{self.__class__.__name__}(op=operator.{self.op.__name__}, value={self.value})"
 
 
@@ -37,6 +50,15 @@ class DateFilter(AttributeFilter):
 
     @classmethod
     def get(cls, approach):
+        """
+        Retrieve the date of a given close approach.
+
+        This class method extracts and returns the date (excluding the time) of a provided
+        `CloseApproach` instance.
+
+        :param approach: A `CloseApproach` instance from which the date will be extracted.
+        :return: A date object representing the date of the close approach.
+        """
         return approach.time.date()
 
 
@@ -45,6 +67,15 @@ class DistanceFilter(AttributeFilter):
 
     @classmethod
     def get(cls, approach):
+        """
+        Retrieve the distance of a given close approach.
+
+        This class method extracts and returns the distance at which a provided
+        `CloseApproach` instance approaches Earth.
+
+        :param approach: A `CloseApproach` instance from which the distance will be extracted.
+        :return: A float representing the distance of the close approach.
+        """
         return approach.distance
 
 
@@ -53,6 +84,15 @@ class VelocityFilter(AttributeFilter):
 
     @classmethod
     def get(cls, approach):
+        """
+        Retrieve the relative velocity of a given close approach.
+
+        This class method extracts and returns the relative velocity at which an NEO
+        (Near-Earth Object) makes a provided `CloseApproach` to Earth.
+
+        :param approach: A `CloseApproach` instance from which the velocity will be extracted.
+        :return: A float representing the relative velocity of the close approach in km/s.
+        """
         return approach.velocity
 
 
@@ -61,6 +101,15 @@ class DiameterFilter(AttributeFilter):
 
     @classmethod
     def get(cls, approach):
+        """
+        Retrieve the diameter of the NEO associated with a given close approach.
+
+        This class method extracts and returns the diameter of the NEO (Near-Earth Object)
+        that's associated with the provided `CloseApproach` instance.
+
+        :param approach: A `CloseApproach` instance from which the NEO's diameter will be extracted.
+        :return: A float representing the diameter of the associated NEO in kilometers.
+        """
         return approach.neo.diameter
 
 
@@ -69,6 +118,15 @@ class HazardousFilter(AttributeFilter):
 
     @classmethod
     def get(cls, approach):
+        """
+        Determine if the NEO associated with a given close approach is hazardous.
+
+        This class method extracts and returns the hazardous status of the NEO (Near-Earth Object)
+        that's linked with the provided `CloseApproach` instance.
+
+        :param approach: A `CloseApproach` instance from which the NEO's hazardous status will be extracted.
+        :return: A boolean indicating whether the associated NEO is hazardous (True) or not (False).
+        """
         return approach.neo.hazardous
 
 
@@ -79,12 +137,12 @@ def create_filters(
         diameter_min=None, diameter_max=None,
         hazardous=None
 ):
-    """Create filters for querying close approaches.
+    """
+    Create filters for querying close approaches.
 
     Based on provided criteria, return a collection of filters that determine
     whether a close approach or its NEO match the criteria.
     """
-
     filters = []
 
     # Adding filters to the list based on the non-None criteria provided.

@@ -1,3 +1,16 @@
+"""
+This module provides utility functions to load Near Earth Objects (NEOs).
+
+The `load_neos` function reads NEO data from a CSV file and returns a list of
+`NearEarthObject` instances. The `load_approaches` function reads close approach data from a JSON
+file and returns a list of `CloseApproach` instances.
+
+Dependencies:
+- csv: For reading CSV files.
+- json: For reading JSON files.
+- models: Contains the definitions for `NearEarthObject` and `CloseApproach` classes.
+"""
+
 import csv
 import json
 

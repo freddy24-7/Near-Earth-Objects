@@ -1,3 +1,12 @@
+"""
+The NEODatabase module defines a class that encapsulates a database.
+
+It provides functionality to link, query, and retrieve NEOs based on
+various criteria, including by designation and name. The database can also be queried to produce
+filtered lists of close approaches based on user-defined filters.
+"""
+
+
 class NEODatabase:
     """A database of Near Earth Objects and their close approaches.
 

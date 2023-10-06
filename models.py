@@ -1,3 +1,10 @@
+"""
+This module defines two primary classes, NearEarthObject and CloseApproach.
+
+NearEarthObject encapsulates the information about a single NEO (Near-Earth Object),
+while CloseApproach encapsulates details of the NEO's close approach to Earth.
+The module also imports helper functions `cd_to_datetime` and `datetime_to_str` for date-time conversions.
+"""
 from helpers import cd_to_datetime, datetime_to_str
 
 

@@ -1,8 +1,27 @@
+"""
+This module provides utility functions to export query results.
+
+The `write_to_csv` function outputs data to a CSV file,
+while the `write_to_json` function outputs data to a JSON file.
+
+Dependencies:
+- csv: For writing to CSV files.
+- json: For writing to JSON files.
+"""
+
 import csv
 import json
 
 
 def write_to_csv(results, filename):
+    """
+    Export a list of close approach objects to a CSV file.
+
+    The resulting file is structured as:
+    datetime_utc,distance_au,velocity_km_s,designation,name,diameter_km,potentially_hazardous
+    :param results: A list of `CloseApproach` objects.
+    :param filename: The desired location and name of the exported CSV file.
+    """
     fieldnames = (
         'datetime_utc', 'distance_au', 'velocity_km_s',
         'designation', 'name', 'diameter_km', 'potentially_hazardous'
@@ -27,6 +46,15 @@ def write_to_csv(results, filename):
 
 
 def write_to_json(results, filename):
+    """
+    Export a list of close approach objects to a JSON file.
+
+    The exported data is structured in a list where each entry is a dictionary representing
+    a close approach and its associated NEO.
+
+    :param results: A list of `CloseApproach` objects.
+    :param filename: The desired location and name of the exported JSON file.
+    """
     data = []
 
     # Creating a list of dictionaries representing close approaches and their NEOs
